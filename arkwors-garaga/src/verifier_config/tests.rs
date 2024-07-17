@@ -92,7 +92,7 @@ mod groth_16_verifier_configuration {
                 Token::Str("0x0"),
                 Token::TupleEnd,
                 Token::StructEnd,
-                Token::Str("gamma_abc_g1"),
+                Token::Str("ic"),
                 Token::Seq { len: Some(0) },
                 Token::SeqEnd,
                 Token::StructEnd,
@@ -102,7 +102,7 @@ mod groth_16_verifier_configuration {
 
         assert_eq!(
             &serde_json::to_string(&config).unwrap(),
-            r#"{"eliptic_curve_id":0,"verifying_key":{"alpha_g1":{"x":"0x0","y":"0x0"},"beta_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"gamma_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"delta_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"gamma_abc_g1":[]}}"#
-        );
+            r#"{"eliptic_curve_id":0,"verifying_key":{"alpha_g1":{"x":"0x0","y":"0x0"},"beta_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"gamma_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"delta_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"ic":[]}}"#
+        )
     }
 }

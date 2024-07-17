@@ -68,7 +68,7 @@ pub(crate) struct VerifyingKey {
     pub beta_g2: G2Point,
     pub gamma_g2: G2Point,
     pub delta_g2: G2Point,
-    pub gamma_abc_g1: Vec<G1Point>,
+    pub ic: Vec<G1Point>,
 }
 
 impl<E: Pairing> From<&ark_groth16::VerifyingKey<E>> for VerifyingKey {
@@ -78,7 +78,7 @@ impl<E: Pairing> From<&ark_groth16::VerifyingKey<E>> for VerifyingKey {
             beta_g2: G2Point::from_ark::<E>(&value.beta_g2),
             gamma_g2: G2Point::from_ark::<E>(&value.gamma_g2),
             delta_g2: G2Point::from_ark::<E>(&value.delta_g2),
-            gamma_abc_g1: value
+            ic: value
                 .gamma_abc_g1
                 .iter()
                 .map(|v| G1Point::from_ark::<E>(v))
