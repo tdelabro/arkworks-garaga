@@ -18,26 +18,89 @@ mod groth_16_verifier_inputs {
         let b = <ark_bn254::Bn254 as Pairing>::ScalarField::rand(&mut rng);
         let public_inputs = vec![a, b];
 
-        let inputs = Groth16VerifierInputs::new(proof.clone(), public_inputs.clone());
+        let inputs = Groth16VerifierInputs::new(
+            crate::ElipticCurveId::Bn254,
+            proof.clone(),
+            public_inputs.clone(),
+        );
         assert_eq!(inputs.proof(), &proof);
         assert_eq!(inputs.public_inputs(), &public_inputs);
     }
 
     #[test]
     #[cfg(feature = "serde")]
-    fn two_way_serde() {
+    fn serialization() {
+        use serde_test::{assert_ser_tokens, Token};
+
         let proof = Proof::<ark_bn254::Bn254>::default();
 
-        let mut rng = ark_std::rand::rngs::StdRng::seed_from_u64(test_rng().next_u64());
-        let a = <ark_bn254::Bn254 as Pairing>::ScalarField::rand(&mut rng);
-        let b = <ark_bn254::Bn254 as Pairing>::ScalarField::rand(&mut rng);
+        let a = <ark_bn254::Bn254 as Pairing>::ScalarField::from(1u8);
+        let b = <ark_bn254::Bn254 as Pairing>::ScalarField::from(2u8);
         let public_inputs = vec![a, b];
 
-        let inputs = Groth16VerifierInputs::new(proof.clone(), public_inputs.clone());
-        let serialized_inputs = serde_json::to_vec(&inputs).unwrap();
-        let deserialized_inputs: Groth16VerifierInputs<ark_bn254::Bn254> =
-            serde_json::from_slice(&serialized_inputs[..]).unwrap();
-
-        assert_eq!(inputs, deserialized_inputs);
+        let inputs = Groth16VerifierInputs::new(
+            crate::ElipticCurveId::Bn254,
+            proof.clone(),
+            public_inputs.clone(),
+        );
+        assert_ser_tokens(
+            &inputs,
+            &[
+                Token::Struct {
+                    name: "Groth16VerifierInputs",
+                    len: 3,
+                },
+                Token::Str("eliptic_curve_id"),
+                Token::U8(0),
+                Token::Str("proof"),
+                Token::Struct {
+                    name: "Proof",
+                    len: 3,
+                },
+                Token::Str("a"),
+                Token::Struct {
+                    name: "G1Point",
+                    len: 2,
+                },
+                Token::Str("x"),
+                Token::Str("0x0"),
+                Token::Str("y"),
+                Token::Str("0x0"),
+                Token::StructEnd,
+                Token::Str("b"),
+                Token::Struct {
+                    name: "G2Point",
+                    len: 2,
+                },
+                Token::Str("x"),
+                Token::Tuple { len: 2 },
+                Token::Str("0x0"),
+                Token::Str("0x0"),
+                Token::TupleEnd,
+                Token::Str("y"),
+                Token::Tuple { len: 2 },
+                Token::Str("0x0"),
+                Token::Str("0x0"),
+                Token::TupleEnd,
+                Token::StructEnd,
+                Token::Str("c"),
+                Token::Struct {
+                    name: "G1Point",
+                    len: 2,
+                },
+                Token::Str("x"),
+                Token::Str("0x0"),
+                Token::Str("y"),
+                Token::Str("0x0"),
+                Token::StructEnd,
+                Token::StructEnd,
+                Token::Str("public_inputs"),
+                Token::Seq { len: Some(2) },
+                Token::String("0x1"),
+                Token::String("0x2"),
+                Token::SeqEnd,
+                Token::StructEnd,
+            ],
+        );
     }
 }
