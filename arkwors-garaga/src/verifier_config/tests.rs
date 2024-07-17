@@ -99,5 +99,10 @@ mod groth_16_verifier_configuration {
                 Token::StructEnd,
             ],
         );
+
+        assert_eq!(
+            &serde_json::to_string(&config).unwrap(),
+            r#"{"eliptic_curve_id":0,"verifying_key":{"alpha_g1":{"x":"0x0","y":"0x0"},"beta_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"gamma_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"delta_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"gamma_abc_g1":[]}}"#
+        );
     }
 }

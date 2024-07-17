@@ -102,5 +102,10 @@ mod groth_16_verifier_inputs {
                 Token::StructEnd,
             ],
         );
+
+        assert_eq!(
+            &serde_json::to_string(&inputs).unwrap(),
+            r#"{"eliptic_curve_id":0,"proof":{"a":{"x":"0x0","y":"0x0"},"b":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"c":{"x":"0x0","y":"0x0"}},"public_inputs":["0x1","0x2"]}"#
+        );
     }
 }
