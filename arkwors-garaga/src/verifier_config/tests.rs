@@ -28,7 +28,10 @@ mod groth_16_verifier_configuration {
                     len: 2,
                 },
                 Token::Str("eliptic_curve_id"),
-                Token::U8(0),
+                Token::UnitVariant {
+                    name: "ElipticCurveId",
+                    variant: "bn254",
+                },
                 Token::Str("verifying_key"),
                 Token::Struct {
                     name: "VerifyingKey",
@@ -102,7 +105,7 @@ mod groth_16_verifier_configuration {
 
         assert_eq!(
             &serde_json::to_string(&config).unwrap(),
-            r#"{"eliptic_curve_id":0,"verifying_key":{"alpha_g1":{"x":"0x0","y":"0x0"},"beta_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"gamma_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"delta_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"ic":[]}}"#
+            r#"{"eliptic_curve_id":"bn254","verifying_key":{"alpha_g1":{"x":"0x0","y":"0x0"},"beta_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"gamma_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"delta_g2":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"ic":[]}}"#
         )
     }
 }

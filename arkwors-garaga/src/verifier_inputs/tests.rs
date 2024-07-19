@@ -51,7 +51,10 @@ mod groth_16_verifier_inputs {
                     len: 3,
                 },
                 Token::Str("eliptic_curve_id"),
-                Token::U8(0),
+                Token::UnitVariant {
+                    name: "ElipticCurveId",
+                    variant: "bn254",
+                },
                 Token::Str("proof"),
                 Token::Struct {
                     name: "Proof",
@@ -105,7 +108,7 @@ mod groth_16_verifier_inputs {
 
         assert_eq!(
             &serde_json::to_string(&inputs).unwrap(),
-            r#"{"eliptic_curve_id":0,"proof":{"a":{"x":"0x0","y":"0x0"},"b":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"c":{"x":"0x0","y":"0x0"}},"public_inputs":["0x1","0x2"]}"#
+            r#"{"eliptic_curve_id":"bn254","proof":{"a":{"x":"0x0","y":"0x0"},"b":{"x":["0x0","0x0"],"y":["0x0","0x0"]},"c":{"x":"0x0","y":"0x0"}},"public_inputs":["0x1","0x2"]}"#
         );
     }
 }
